@@ -1,77 +1,56 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion"; // Tambahkan import Variants
+
+// Definisikan tipe Variants agar TypeScript tidak rewel
+const ornamentVariants: Variants = {
+  hidden: { 
+    scale: 0.8, 
+    opacity: 0 
+  },
+  visible: { 
+    scale: 1, 
+    opacity: 1, 
+    transition: { 
+      duration: 1.5, 
+      ease: "easeOut" // Sekarang TS tahu ini tipe Easing yang sah
+    } 
+  },
+  sway: { 
+    rotate: [-2, 2, -2], 
+    transition: { 
+      duration: 4, 
+      repeat: Infinity, 
+      ease: "easeInOut" 
+    } 
+  },
+};
 
 export default function CornerOrnaments() {
-  // Animasi Tumbuh + Goyang
-  const ornamentVariants = {
-    hidden: { scale: 0, opacity: 0 },
-    visible: { 
-      scale: 1, 
-      opacity: 1,
-      transition: { duration: 0.8, ease: "easeOut" }
-    },
-    sway: {
-      rotate: [-1, 1, -1],
-      transition: {
-        duration: 5,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  };
-
   return (
-    // z-[9999] supaya menang lawan gradasi hitam background
-    // Kita hapus 'overflow-hidden' agar gambar tidak terpotong pinggirannya
-    <div className="absolute inset-0 pointer-events-none z-[9999]">
-      
-      {/* Kiri Atas */}
-      <motion.img 
-        src="/assets/img/bunga-kiri-atas.png" 
-        alt="tl" 
+    <>
+      {/* Bunga Kiri Atas */}
+      <motion.img
+        src="/assets/img/bunga-sudut.png" // Sesuaikan path file lo
         initial="hidden"
         whileInView="visible"
         animate="sway"
         variants={ornamentVariants}
         style={{ originX: 0, originY: 0 }}
-        className="absolute top-0 left-0 w-[220px] h-auto"
+        className="absolute top-0 left-0 w-[220px] h-auto z-20 pointer-events-none"
       />
-
-      {/* Kanan Atas - KITA PASTIKAN TOP-0 RIGHT-0 */}
-      <motion.img 
-        src="/assets/img/bunga-kanan-atas.png" 
-        alt="tr" 
+      
+      {/* Bunga Kanan Atas (Dibalik) */}
+      <motion.img
+        src="/assets/img/bunga-sudut.png"
         initial="hidden"
         whileInView="visible"
         animate="sway"
         variants={ornamentVariants}
         style={{ originX: 1, originY: 0 }}
-        className="absolute top-0 right-0 w-[220px] h-auto" 
+        className="absolute top-0 right-0 w-[220px] h-auto z-20 scale-x-[-1] pointer-events-none"
       />
 
-      {/* Kiri Bawah */}
-      <motion.img 
-        src="/assets/img/bunga-kiri-bawah.png" 
-        alt="bl" 
-        initial="hidden"
-        whileInView="visible"
-        animate="sway"
-        variants={ornamentVariants}
-        style={{ originX: 0, originY: 1 }}
-        className="absolute bottom-0 left-0 w-[220px] h-auto"
-      />
-
-      {/* Kanan Bawah */}
-      <motion.img 
-        src="/assets/img/bunga-kanan-bawah.png" 
-        alt="br" 
-        initial="hidden"
-        whileInView="visible"
-        animate="sway"
-        variants={ornamentVariants}
-        style={{ originX: 1, originY: 1 }}
-        className="absolute bottom-0 right-0 w-[220px] h-auto"
-      />
-    </div>
+      {/* Tambahkan bunga bawah jika perlu dengan logika yang sama */}
+    </>
   );
 }
